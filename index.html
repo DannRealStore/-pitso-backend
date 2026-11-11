@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pitso - Crispy Golden Fresh</title>
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
+<style>
+  body{font-family:Arial,sans-serif;margin:0;background:#fff7e6;color:#333;text-align:center}
+  header{background:#d92d20;color:#fff;padding:18px 12px}
+  header h1{margin:0;font-size:30px}
+  header p{margin:4px 0 0}
+  .hero{padding:16px}
+  .hero h2{color:#d92d20;margin:8px 0 2px;font-size:26px}
+  .grid{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;padding:10px 12px 30px}
+  .card{background:#fff;border:2px solid #ff8a00;border-radius:16px;width:300px;padding:14px;box-shadow:0 4px 10px rgba(0,0,0,.08)}
+  .card h3{color:#d92d20;margin:10px 0 4px}
+  .card p{margin:4px 0}
+  .price{font-weight:bold;font-size:20px;color:#1a7a00;margin:8px 0}
+  button{background:#ff8a00;color:#fff;border:none;padding:12px 18px;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer;width:100%}
+  button:hover{background:#d92d20}
+  #status{padding:12px;font-weight:bold}
+  footer{padding:16px;color:#888;font-size:13px}
+</style>
+</head>
+<body>
+<header>
+  <h1>🍗 PITSO</h1>
+  <p>CRISPY • GOLDEN • FRESH</p>
+</header>
+<div class="hero">
+  <h2>Pitso - Pangarap na Crispy Chicken</h2>
+  <p>From a childhood Pitso bone toy to a real fastfood dream. Made daily, for Pioneers.</p>
+  <p><b>Pay with Test-Pi only — Testnet</b></p>
+</div>
+<div id="status">Connecting to Pi...</div>
+<div class="grid">
+  <div class="card">
+    <h3>Bucket Medium - 6 pcs</h3>
+    <p>6 pcs Crispy Golden Chicken, good for family sharing</p>
+    <div class="price">3.00 Test-Pi</div>
+    <button onclick="buy('Bucket Medium 6 pcs', 3)">Buy with Pi - 3 Pi</button>
+  </div>
+  <div class="card">
+    <h3>Bucket Large - 8 pcs</h3>
+    <p>8 pcs Crispy Golden Chicken, for barkada</p>
+    <div class="price">4.00 Test-Pi</div>
+    <button onclick="buy('Bucket Large 8 pcs', 4)">Buy with Pi - 4 Pi</button>
+  </div>
+  <div class="card">
+    <h3>Bucket Big - 12 pcs</h3>
+    <p>12 pcs Crispy Golden Chicken, for celebration</p>
+    <div class="price">6.00 Test-Pi</div>
+    <button onclick="buy('Bucket Big 12 pcs', 6)">Buy with Pi - 6 Pi</button>
+  </div>
+  <div class="card">
+    <h3>Solo Meal</h3>
+    <p>1 pc Chicken + Rice + Drink - Solo, busog na!</p>
+    <div class="price">1.00 Test-Pi</div>
+    <button onclick="buy('Solo Meal', 1)">Buy with Pi - 1 Pi</button>
+  </div>
+  <div class="card">
+    <h3>Drinks Medium</h3>
+    <p>Cold Red Drink with Ice - Medium</p>
+    <div class="price">0.50 Test-Pi</div>
+    <button onclick="buy('Drinks Medium', 0.5)">Buy with Pi - 0.5 Pi</button>
+  </div>
+  <div class="card">
+    <h3>Drinks Large</h3>
+    <p>Cold Red Drink with Ice - Large</p>
+    <div class="price">0.75 Test-Pi</div>
+    <button onclick="buy('Drinks Large', 0.75)">Buy with Pi - 0.75 Pi</button>
+  </div>
+</div>
+<footer>Pitso • pitso.pi • Crispy Golden Fresh • Testnet Only</footer>
+<script>
+  const BACKEND_URL = "https://pitso-backend.onrender.com";
+  const Pi = window.Pi;
+  Pi.init({ version: "2.0", sandbox: true });
+  async function auth(){
+    try{
+      const scopes = ['username','payments'];
+      const authResult = await Pi.authenticate(scopes, onIncompletePaymentFound);
+      document.getElementById('status').innerText = "Connected as: " +
