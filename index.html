@@ -80,7 +80,7 @@
   let isAuthenticated = false;
 
   // Gamitin ang sandbox: false para sa Mainnet (palitan ng true kung magte-test sa Sandbox)
-  Pi.init({ version: "2.0", sandbox: false });
+  Pi.init({ version: "2.0", sandbox: true });
 
   function onIncompletePaymentFound(payment) {
     console.log("Incomplete payment found:", payment);
