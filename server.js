@@ -39,7 +39,7 @@ app.post('/api/complete', async (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.send("Pitso Backend Server is Live and Operational!");
+  res.sendFile(__dirname + '/index.html');
 });
 
 const PORT = process.env.PORT || 3000;
