@@ -41,7 +41,9 @@ app.post('/api/complete', async (req, res) => {
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
-
+app.get('/validation-key.txt', (req, res) => {
+  res.sendFile(__dirname + '/validation-key.txt');
+});
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
