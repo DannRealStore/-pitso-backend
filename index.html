@@ -19,7 +19,7 @@
   .price{font-weight:bold;font-size:20px;color:#1a7a00;margin:8px 0}
   button{background:#ff8a00;color:#fff;border:none;padding:12px 18px;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer;width:100%}
   button:hover{background:#d92d20}
-  #status{padding:12px;font-weight:bold}
+  #status{padding:12px;font-weight:bold;color:#1a7a00}
   footer{padding:16px;color:#888;font-size:13px}
 </style>
 </head>
@@ -31,54 +31,129 @@
 <div class="hero">
   <h2>Pitso - Pangarap na Crispy Chicken</h2>
   <p>From a childhood Pitso bone toy to a real fastfood dream. Made daily, for Pioneers.</p>
-  <p><b>Pay with Test-Pi only — Testnet</b></p>
+  <p><b>Pay with Pi — Mainnet</b></p>
 </div>
 <div id="status">Connecting to Pi...</div>
 <div class="grid">
   <div class="card">
     <h3>Bucket Medium - 6 pcs</h3>
     <p>6 pcs Crispy Golden Chicken, good for family sharing</p>
-    <div class="price">3.00 Test-Pi</div>
+    <div class="price">3.00 Pi</div>
     <button onclick="buy('Bucket Medium 6 pcs', 3)">Buy with Pi - 3 Pi</button>
   </div>
   <div class="card">
     <h3>Bucket Large - 8 pcs</h3>
     <p>8 pcs Crispy Golden Chicken, for barkada</p>
-    <div class="price">4.00 Test-Pi</div>
+    <div class="price">4.00 Pi</div>
     <button onclick="buy('Bucket Large 8 pcs', 4)">Buy with Pi - 4 Pi</button>
   </div>
   <div class="card">
     <h3>Bucket Big - 12 pcs</h3>
     <p>12 pcs Crispy Golden Chicken, for celebration</p>
-    <div class="price">6.00 Test-Pi</div>
+    <div class="price">6.00 Pi</div>
     <button onclick="buy('Bucket Big 12 pcs', 6)">Buy with Pi - 6 Pi</button>
   </div>
   <div class="card">
     <h3>Solo Meal</h3>
     <p>1 pc Chicken + Rice + Drink - Solo, busog na!</p>
-    <div class="price">1.00 Test-Pi</div>
+    <div class="price">1.00 Pi</div>
     <button onclick="buy('Solo Meal', 1)">Buy with Pi - 1 Pi</button>
   </div>
   <div class="card">
     <h3>Drinks Medium</h3>
     <p>Cold Red Drink with Ice - Medium</p>
-    <div class="price">0.50 Test-Pi</div>
+    <div class="price">0.50 Pi</div>
     <button onclick="buy('Drinks Medium', 0.5)">Buy with Pi - 0.5 Pi</button>
   </div>
   <div class="card">
     <h3>Drinks Large</h3>
     <p>Cold Red Drink with Ice - Large</p>
-    <div class="price">0.75 Test-Pi</div>
+    <div class="price">0.75 Pi</div>
     <button onclick="buy('Drinks Large', 0.75)">Buy with Pi - 0.75 Pi</button>
   </div>
 </div>
-<footer>Pitso • pitso.pi • Crispy Golden Fresh • Testnet Only</footer>
+<footer>Pitso • pitso.pi • Crispy Golden Fresh</footer>
+
 <script>
   const BACKEND_URL = "https://pitso-backend.onrender.com";
   const Pi = window.Pi;
-  Pi.init({ version: "2.0", sandbox: true });
-  async function auth(){
-    try{
-      const scopes = ['username','payments'];
+  let isAuthenticated = false;
+
+  // Gamitin ang sandbox: false para sa Mainnet (palitan ng true kung magte-test sa Sandbox)
+  Pi.init({ version: "2.0", sandbox: false });
+
+  function onIncompletePaymentFound(payment) {
+    console.log("Incomplete payment found:", payment);
+    if (payment.transaction && payment.transaction.txid) {
+      fetch(BACKEND_URL + "/api/complete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          paymentId: payment.identifier,
+          txid: payment.transaction.txid
+        })
+      });
+    }
+  }
+
+  async function auth() {
+    try {
+      const scopes = ['username', 'payments'];
       const authResult = await Pi.authenticate(scopes, onIncompletePaymentFound);
-      document.getElementById('status').innerText = "Connected as: " +
+      isAuthenticated = true;
+      document.getElementById('status').innerText = "Connected as: @" + authResult.user.username;
+      return true;
+    } catch (err) {
+      console.error("Auth error:", err);
+      document.getElementById('status').innerText = "Please open inside Pi Browser to connect.";
+      return false;
+    }
+  }
+
+  async function buy(item, amount) {
+    if (!isAuthenticated) {
+      const ok = await auth();
+      if (!ok) return;
+    }
+
+    document.getElementById('status').innerText = "Opening payment for " + item + "...";
+
+    Pi.createPayment({
+      amount: amount,
+      memo: "Pitso Order: " + item,
+      metadata: { item: item }
+    }, {
+      onReadyForServerApproval: function(paymentId) {
+        fetch(BACKEND_URL + "/api/approve", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ paymentId: paymentId })
+        });
+      },
+      onReadyForServerCompletion: function(paymentId, txid) {
+        fetch(BACKEND_URL + "/api/complete", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ paymentId: paymentId, txid: txid })
+        }).then(() => {
+          document.getElementById('status').innerText = "Salamat! Bayad na ang " + item + " (" + amount + " Pi).";
+          alert("Order Successful! Salamat sa pagbili sa Pitso.");
+        });
+      },
+      onCancel: function(paymentId) {
+        document.getElementById('status').innerText = "Payment cancelled.";
+      },
+      onError: function(error, payment) {
+        console.error("Payment error:", error);
+        document.getElementById('status').innerText = "Payment error: " + error.message;
+      }
+    });
+  }
+
+  window.onload = function() {
+    auth();
+  };
+</script>
+</body>
+</html>
+
