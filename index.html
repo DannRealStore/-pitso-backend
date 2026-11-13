@@ -89,27 +89,34 @@ const BACKEND="https://pitso-backend.onrender.com";
 function isPiBrowser(){return /PiBrowser/i.test(navigator.userAgent);}
 function showInvite(){document.getElementById('invite').style.display='block';}
 async function buyTest(name,amount){
-document.getElementById('status').innerText="Nagbubukas ng Pi Wallet... "+name;
-try{
-const auth = await Pi.authenticate(['username','payments'], function(p){});
-const payment = await Pi.createPayment({
-amount: amount,
-memo: name,
-metadata: {item: name}
-}, {
-onReadyForServerApproval: async function(paymentId){
-await fetch(BACKEND+"/createPayment",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({paymentId:paymentId, amount:amount, memo:name})});
-},
-onReadyForServerCompletion: async function(paymentId, txid){
-await fetch(BACKEND+"/completePayment",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({paymentId:paymentId, txid:txid})});
-document.getElementById('status').innerText="✅ Test Bayad Na! "+name;
-},
-onCancel: function(){ document.getElementById('status').innerText="Kinansel mo yung bayad."; },
-onError: function(e){ document.getElementById('status').innerText="Error sa Pi Wallet: "+e; }
-});
-}catch(e){
-document.getElementById('status').innerText="Error: "+e.message;
-}
+  if(!isPiBrowser() || !window.Pi){
+    document.getElementById('status').innerText="Hindi ka pa naka-Pi Browser. Download mo muna Pi App.";
+    showInvite();
+    return;
+  }
+  document.getElementById('status').innerText="Nagbubukas ng Pi Wallet... "+name;
+  try{
+    const auth = await Pi.authenticate(['username','payments'], function(p){});
+    const payment = await Pi.createPayment({
+      amount: amount,
+      memo: name,
+      metadata: {item: name}
+    }, {
+      onReadyForServerApproval: async function(paymentId){
+        const res = await fetch(BACKEND+"/createPayment",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({paymentId:paymentId, amount:amount, memo:name})});
+        console.log("Approve result:", await res.text());
+      },
+      onReadyForServerCompletion: async function(paymentId, txid){
+        await fetch(BACKEND+"/completePayment",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({paymentId:paymentId, txid:txid})});
+        document.getElementById('status').innerText="✅ Test Bayad Na! "+name;
+      },
+      onCancel: function(){ document.getElementById('status').innerText="Kinansel mo yung bayad."; },
+      onError: function(e){ document.getElementById('status').innerText="Error sa Pi Wallet: "+e; }
+    });
+  }catch(e){
+    document.getElementById('status').innerText="Hindi ka pa Pi User. Download mo muna Pi App gamit invite ko.";
+    showInvite();
+  }
 }
 </script>
 </body>
