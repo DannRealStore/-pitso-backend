@@ -3,7 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PITSO - Testnet at Mainnet</title>
+<title>PITSO - Testnet at Mainnet</title><script src="https://sdk.minepi.com/pi-sdk.js"></script>
+<script>
+<script>try{ Pi.init({version:"2.0", sandbox:true}); }catch(e){}
+</script>
 <style>
 body{font-family:Arial;background:#fff5e6;margin:0;padding:0;text-align:center}
 header{background:#d32f2f;color:#fff;padding:20px}
@@ -72,23 +75,34 @@ footer a{color:#ffeb3b}
 <p>PITSO - CRISPY • GOLDEN • FRESH</p>
 <p><a href="https://www.facebook.com/PitsoPH" target="_blank">Facebook: PitsoPH</a> | <a href="https://www.youtube.com/@PitsoPH" target="_blank">YouTube: @PitsoPH</a></p>
 <p><a href="https://www.facebook.com/KuyaDannie-LifeStory" target="_blank">Kuya Dannie - Life Story</a></p>
-<p>Invite: DannReal1777 - https://minepi.com/DannReal1777</p>
+<p>Invite: <a href="https://minepi.com/DannReal1777" target="_blank">DannReal1777 - https://minepi.com/DannReal1777</a></p>
 </footer>
 <script>
-const BACKEND="https://pitso-backend.onrender.com";
+const BACKEND="https://dannreal-backend.onrender.com";
 function isPiBrowser(){return /PiBrowser/i.test(navigator.userAgent);}
 function showInvite(){document.getElementById('invite').style.display='block';}
 async function buyTest(name,amount){
-if(!isPiBrowser()){showInvite();return;}
-document.getElementById('status').innerText="Nagbabayad ng "+name+"...";
+document.getElementById('status').innerText="Nagbubukas ng Pi Wallet... "+name;
 try{
-const r1=await fetch(BACKEND+"/createPayment",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({amount:amount,memo:name})});
-const d1=await r1.json();
-if(!d1.paymentId){document.getElementById('status').innerText="Testnet Error: "+(d1.error||"walang paymentId");return;}
-const r2=await fetch(BACKEND+"/completePayment",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({paymentId:d1.paymentId})});
-const d2=await r2.json();
-document.getElementById('status').innerText=d2.success?"✅ Test Bayad Na! "+name:"❌ Hindi natapos";
-}catch(e){document.getElementById('status').innerText="Error: "+e.message;}
+const auth = await Pi.authenticate(['username','payments'], function(p){});
+const payment = await Pi.createPayment({
+amount: amount,
+memo: name,
+metadata: {item: name}
+}, {
+onReadyForServerApproval: async function(paymentId){
+await fetch(BACKEND+"/createPayment",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({paymentId:paymentId, amount:amount, memo:name})});
+},
+onReadyForServerCompletion: async function(paymentId, txid){
+await fetch(BACKEND+"/completePayment",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({paymentId:paymentId, txid:txid})});
+document.getElementById('status').innerText="✅ Test Bayad Na! "+name;
+},
+onCancel: function(){ document.getElementById('status').innerText="Kinansel mo yung bayad."; },
+onError: function(e){ document.getElementById('status').innerText="Error sa Pi Wallet: "+e; }
+});
+}catch(e){
+document.getElementById('status').innerText="Error: "+e.message;
+}
 }
 </script>
 </body>
