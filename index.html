@@ -4,8 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PITSO - Testnet at Mainnet</title><script src="https://sdk.minepi.com/pi-sdk.js"></script>
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
 <script>
-<script>try{ Pi.init({version:"2.0", sandbox:true}); }catch(e){}
+function initPi(){
+if(window.Pi){ Pi.init({version:"2.0", sandbox:true}); }
+}
+window.addEventListener('load', initPi);
+document.addEventListener('DOMContentLoaded', initPi);
+setTimeout(initPi, 1000);
+setTimeout(initPi, 2500);
 </script>
 <style>
 body{font-family:Arial;background:#fff5e6;margin:0;padding:0;text-align:center}
