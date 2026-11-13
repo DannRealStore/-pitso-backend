@@ -34,7 +34,33 @@ footer a{color:#ffeb3b}
 #invite div{background:#fff;border-radius:16px;padding:20px;max-width:400px;margin:60px auto}
 </style>
 </head>
-<body>
+<body><div id="fbBanner" style="display:none;background:#fff3cd;border:2px solid #ff9800;border-radius:12px;padding:12px;margin:10px;">
+  <b>📱 Galing ka ba sa Facebook / Chrome?</b><br>
+  Para makabili gamit Pi, kailangan mo buksan to sa <b>Pi Browser</b>.<br><br>
+  <button style="background:#1565c0;width:90%" onclick="copyPitsoLink()">📋 Copy Link - Paste sa Pi Browser</button><br>
+  <button style="background:#6a1b9a;width:90%" onclick="openInPiBrowser()">🚀 Subukan Buksan sa Pi Browser</button>
+  <p id="copyMsg" style="font-size:14px;color:green;"></p>
+  <small>Steps: Pindutin ... sa taas > Open in Browser > Piliin Pi Browser. O Copy Link tapos paste sa Pi Browser.</small>
+</div>
+<script>
+function copyPitsoLink(){
+  const link = window.location.href;
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(link).then(()=>{
+      document.getElementById('copyMsg').innerText="✅ Na-copy na! I-paste mo na sa Pi Browser.";
+    });
+  } else {
+    document.getElementById('copyMsg').innerText="Copy mo manually: "+link;
+  }
+}
+function openInPiBrowser(){
+  window.open(window.location.href, '_blank');
+  document.getElementById('copyMsg').innerText="Kung hindi nagbukas sa Pi Browser, pindutin mo Copy Link sa taas at i-paste mo sa Pi Browser.";
+}
+if(!/PiBrowser/i.test(navigator.userAgent)){
+  document.getElementById('fbBanner').style.display='block';
+}
+</script>
 <header>
 <h1>🍗 PITSO</h1>
 <p>CRISPY • GOLDEN • FRESH</p>
