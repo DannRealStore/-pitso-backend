@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const fs = require('fs');
 const app = express();
 
 app.use(cors());
@@ -11,12 +10,10 @@ app.use(express.static(__dirname));
 const PI_API_KEY = process.env.PI_API_KEY;
 const PI_API = "https://api.minepi.com/v2/payments";
 
-// 1. Ito yung luma mo, pang-validation - hindi natin tinanggal
 app.get("/validation-key.txt", (req, res) => {
   res.sendFile(path.join(__dirname, "validation-key.txt"));
 });
 
-// 2. Ito yung bago - pang-APPROVE
 app.post("/createPayment", async (req, res) => {
   const { paymentId } = req.body;
   console.log("APPROVE:", paymentId);
@@ -37,7 +34,6 @@ app.post("/createPayment", async (req, res) => {
   }
 });
 
-// 3. Ito yung bago - pang-COMPLETE
 app.post("/completePayment", async (req, res) => {
   const { paymentId, txid } = req.body;
   console.log("COMPLETE:", paymentId, txid);
