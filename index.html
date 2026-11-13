@@ -1,105 +1,94 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pitso - Crispy Golden Fresh</title>
-<script src="https://sdk.minepi.com/pi-sdk.js"></script>
+<title>PITSO - Testnet at Mainnet</title>
 <style>
-body{font-family:Arial,sans-serif;margin:0;background:#fff7e6;color:#333;text-align:center}
-header{background:#d92d20;color:#fff;padding:18px 12px}
-header h1{margin:0;font-size:30px}
-header p{margin:4px 0 0}
-.hero{padding:16px}
-.hero h2{color:#d92d20;margin:8px 0 2px;font-size:26px}
-.grid{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;padding:10px 12px 30px}
-.card{background:#fff;border:2px solid #ff8a00;border-radius:16px;width:300px;padding:14px}
-.card h3{color:#d92d20;margin:10px 0 4px}
-.price{font-weight:bold;font-size:20px;color:#1a7a00;margin:8px 0}
-button{background:#ff8a00;color:#fff;border:none;padding:12px 18px;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer;width:100%}
-#status{padding:12px;font-weight:bold;color:#1a7a00}
-footer{padding:16px;color:#888;font-size:13px}
-.social-btn{display:inline-block;margin:5px;padding:10px 14px;border-radius:10px;color:#fff;text-decoration:none;font-weight:bold;font-size:14px}
+body{font-family:Arial;background:#fff5e6;margin:0;padding:0;text-align:center}
+header{background:#d32f2f;color:#fff;padding:20px}
+header h1{margin:0;font-size:42px}
+.badge{display:inline-block;padding:6px 14px;border-radius:20px;font-weight:bold;margin:4px}
+.test{background:#ffeb3b;color:#000}
+.main{background:#1565c0;color:#fff}
+.soon{background:#000;color:#ffeb3b}
+.box{max-width:520px;margin:16px auto;background:#fff;border:3px solid #d32f2f;border-radius:16px;padding:16px}
+.box.lock{border-color:#999;opacity:0.95}
+button{background:#d32f2f;color:#fff;border:0;padding:12px 18px;border-radius:10px;font-size:16px;font-weight:bold;margin:6px;width:90%}
+button.lock{background:#999}
+button.blue{background:#1565c0}
+.item{border:1px solid #ffd0a0;border-radius:10px;padding:10px;margin:8px 0}
+footer{background:#222;color:#fff;padding:16px;font-size:14px}
+footer a{color:#ffeb3b}
+#invite{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);padding:20px}
+#invite div{background:#fff;border-radius:16px;padding:20px;max-width:400px;margin:60px auto}
 </style>
 </head>
 <body>
-<header><h1>🍗 PITSO</h1><p>CRISPY • GOLDEN • FRESH</p></header>
-<div class="hero">
-<h2>Pitso - Pangarap na Crispy Chicken</h2>
-<p>From a childhood Pitso bone toy to a real fastfood dream. Made daily, for Pioneers.</p>
-<p><b>Pay with Pi — Testnet pa lang, for testing</b></p>
-</div>
-<div id="status">Welcome to Pitso! Pili ka na ng order mo.</div>
-<div class="grid">
-<div class="card"><h3>Bucket Medium - 6 pcs</h3><p>6 pcs Crispy Golden Chicken, good for family sharing</p><div class="price">3.00 Pi</div><button onclick="buy('Bucket Medium 6 pcs',3)">Buy with Pi - 3 Pi</button></div>
-<div class="card"><h3>Bucket Large - 8 pcs</h3><p>8 pcs Crispy Golden Chicken, for barkada</p><div class="price">4.00 Pi</div><button onclick="buy('Bucket Large 8 pcs',4)">Buy with Pi - 4 Pi</button></div>
-<div class="card"><h3>Bucket Big - 12 pcs</h3><p>12 pcs Crispy Golden Chicken, for celebration</p><div class="price">6.00 Pi</div><button onclick="buy('Bucket Big 12 pcs',6)">Buy with Pi - 6 Pi</button></div>
-<div class="card"><h3>Solo Meal</h3><p>1 pc Chicken + Rice + Drink - Solo, busog na!</p><div class="price">1.00 Pi</div><button onclick="buy('Solo Meal',1)">Buy with Pi - 1 Pi</button></div>
-<div class="card"><h3>Drinks Medium</h3><p>Cold Red Drink with Ice - Medium</p><div class="price">0.50 Pi</div><button onclick="buy('Drinks Medium',0.5)">Buy with Pi - 0.5 Pi</button></div>
-<div class="card"><h3>Drinks Large</h3><p>Cold Red Drink with Ice - Large</p><div class="price">0.75 Pi</div><button onclick="buy('Drinks Large',0.75)">Buy with Pi - 0.75 Pi</button></div>
-</div>
-<footer>
-<p>Pitso • pitso.pi • Crispy Golden Fresh</p>
-<a class="social-btn" style="background:#1877F2;" href="https://www.facebook.com/PitsoPH" target="_blank">👍 Follow Pitso sa Facebook</a>
-<a class="social-btn" style="background:#1877F2;" href="https://www.facebook.com/KuyaDannie-LifeStory" target="_blank">👍 Follow Kuya Dannie</a>
-<a class="social-btn" style="background:#FF0000;" href="https://www.youtube.com/@PitsoPH" target="_blank">▶️ Subscribe sa YouTube</a>
-</footer><!-- INVITE WINDOW -->
-<div id="inviteWindow" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.75); z-index:9999; align-items:center; justify-content:center; padding:15px;">
-<div style="background:white; padding:25px; border-radius:16px; max-width:360px; width:100%; text-align:center;">
-<h2 style="color:#d92d20; margin:0;">🍗 Oops! Hindi ka pa Pi User?</h2>
-<p>Para makabili dito sa Pitso, kailangan mo muna ng Pi App. Libre lang!</p>
-<p>Gamitin mo invite code ko:</p>
-<div style="background:#fff3e0; padding:10px; border-radius:10px; font-size:22px; font-weight:bold; color:#e65100;">DannReal1777</div>
-<a href="https://minepi.com/DannReal1777" target="_blank" style="display:block; background:#ff8a00; color:white; padding:13px; border-radius:10px; text-decoration:none; font-weight:bold; margin:15px 0 8px;">Download Pi App Gamit Invite Ko</a>
-<a href="https://www.facebook.com/PitsoPH" target="_blank" style="display:block; background:#1877F2; color:white; padding:11px; border-radius:10px; text-decoration:none; font-weight:bold; margin:0 0 8px;">👍 Follow Pitso sa Facebook</a>
-<a href="https://www.facebook.com/KuyaDannie-LifeStory" target="_blank" style="display:block; background:#1877F2; color:white; padding:11px; border-radius:10px; text-decoration:none; font-weight:bold; margin:0 0 8px;">👍 Follow Kuya Dannie</a>
-<a href="https://www.youtube.com/@PitsoPH" target="_blank" style="display:block; background:#FF0000; color:white; padding:11px; border-radius:10px; text-decoration:none; font-weight:bold; margin:0 0 10px;">▶️ Subscribe sa YouTube ni Pitso</a>
-<button onclick="copyInvite()" style="width:100%; background:#fff; border:1px solid #ff8a00; color:#e65100; padding:10px; border-radius:10px; font-weight:bold;">Copy Invite Link</button>
-<br><br>
-<button onclick="closeInviteWindow()" style="background:#eee; color:#333; padding:10px 20px; border:none; border-radius:10px;">Balik sa Tindahan</button>
-</div>
+<header>
+<h1>🍗 PITSO</h1>
+<p>CRISPY • GOLDEN • FRESH</p>
+<span class="badge test">TESTNET - TEST-PI LANG</span>
+<span class="badge main">MAINNET - COMING SOON</span>
+<p>Dalawang Pitso, sabay na makikita. Isa pang-test, isa pang-totoo pag ready na.</p>
+</header>
+
+<!-- TESTNET BOX - BUKAS -->
+<div class="box">
+<h2>🧪 PITSO TESTNET</h2>
+<span class="badge test">BUKAS - PWEDE MAG-TEST</span>
+<p>Test-Pi lang. Hindi totoong pera.</p>
+<div class="item"><b>Bucket Medium 6 pcs</b><br>2.00 Test-Pi<br><button onclick="buyTest('Bucket Medium',2)">Buy with Test-Pi</button></div>
+<div class="item"><b>Bucket Large 8 pcs</b><br>3.14 Test-Pi<br><button onclick="buyTest('Bucket Large',3.14)">Buy with Test-Pi</button></div>
+<div class="item"><b>Bucket Big 12 pcs</b><br>4.50 Test-Pi<br><button onclick="buyTest('Bucket Big',4.5)">Buy with Test-Pi</button></div>
+<div class="item"><b>Solo Meal</b><br>1.00 Test-Pi<br><button onclick="buyTest('Solo Meal',1)">Buy with Test-Pi</button></div>
+<div class="item"><b>Drinks Medium</b><br>0.50 Test-Pi<br><button onclick="buyTest('Drinks Medium',0.5)">Buy with Test-Pi</button></div>
+<div class="item"><b>Drinks Large</b><br>1.00 Test-Pi<br><button onclick="buyTest('Drinks Large',1)">Buy with Test-Pi</button></div>
+<p id="status">Status: Ready sa Testnet</p>
+</div><!-- MAINNET BOX - NAKA-LOCK -->
+<div class="box lock">
+<h2>🔒 PITSO MAINNET</h2>
+<span class="badge soon">COMING SOON - HINDI PA BUKAS</span>
+<p>Totoong Pi na pag nag-Mainnet na. Naka-lock muna ngayon.</p>
+<div class="item"><b>Bucket Medium 6 pcs</b><br>2.00 Pi<br><button class="lock" onclick="alert('Mainnet Coming Soon pa, 【entity-Coach¦canonical_name=Coach】! Sa Testnet muna mag-test.')">🔒 Buy with Real Pi - Soon</button></div>
+<div class="item"><b>Bucket Large 8 pcs</b><br>3.14 Pi<br><button class="lock" onclick="alert('Mainnet Coming Soon pa!')">🔒 Buy with Real Pi - Soon</button></div>
+<div class="item"><b>Bucket Big 12 pcs</b><br>4.50 Pi<br><button class="lock" onclick="alert('Mainnet Coming Soon pa!')">🔒 Buy with Real Pi - Soon</button></div>
+<div class="item"><b>Solo Meal</b><br>1.00 Pi<br><button class="lock" onclick="alert('Mainnet Coming Soon pa!')">🔒 Buy with Real Pi - Soon</button></div>
+<div class="item"><b>Drinks Medium</b><br>0.50 Pi<br><button class="lock" onclick="alert('Mainnet Coming Soon pa!')">🔒 Buy with Real Pi - Soon</button></div>
+<div class="item"><b>Drinks Large</b><br>1.00 Pi<br><button class="lock" onclick="alert('Mainnet Coming Soon pa!')">🔒 Buy with Real Pi - Soon</button></div>
+<button class="blue" onclick="showInvite()">Download Pitso App - Soon</button>
+<p>Pag nag-Mainnet na, dito ka bibili gamit totoong Pi.</p>
 </div>
 
+<div id="invite"><div>
+<h2>🍗 Wala ka pa Pi?</h2>
+<p>Gamitin mo invite ko, Coach!</p>
+<p><b>Invite Code: DannReal1777</b></p>
+<button class="blue" onclick="window.open('https://minepi.com/DannReal1777','_blank')">Download Pi App Gamit Invite Ko</button><br>
+<button onclick="document.getElementById('invite').style.display='none'">Isara</button>
+</div></div>
+
+<footer>
+<p>PITSO - CRISPY • GOLDEN • FRESH</p>
+<p><a href="https://www.facebook.com/PitsoPH" target="_blank">Facebook: PitsoPH</a> | <a href="https://www.youtube.com/@PitsoPH" target="_blank">YouTube: @PitsoPH</a></p>
+<p><a href="https://www.facebook.com/KuyaDannie-LifeStory" target="_blank">Kuya Dannie - Life Story</a></p>
+<p>Invite: DannReal1777 - https://minepi.com/DannReal1777</p>
+</footer>
 <script>
-const BACKEND_URL = "https://pitso-backend.onrender.com";
-const INVITE_LINK = "https://minepi.com/DannReal1777";
-let isAuthenticated = false;
-const hasPi = /PiBrowser/i.test(navigator.userAgent);
-if (hasPi) { window.Pi.init({ version: "2.0", sandbox: true }); }
-function showInviteWindow(){ document.getElementById('inviteWindow').style.display = 'flex'; }
-function closeInviteWindow(){ document.getElementById('inviteWindow').style.display = 'none'; }
-function copyInvite(){ if(navigator.clipboard) navigator.clipboard.writeText(INVITE_LINK); alert('Na-copy na! Invite Code: DannReal1777'); }
-function onIncompletePaymentFound(payment){
-if(payment.transaction && payment.transaction.txid){
-fetch(BACKEND_URL + "/api/complete",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({paymentId:payment.identifier,txid:payment.transaction.txid})});
-}
-}
-async function auth(){
-if(!hasPi){ showInviteWindow(); return false; }
+const BACKEND="https://pitso-backend.onrender.com";
+function isPiBrowser(){return /PiBrowser/i.test(navigator.userAgent);}
+function showInvite(){document.getElementById('invite').style.display='block';}
+async function buyTest(name,amount){
+if(!isPiBrowser()){showInvite();return;}
+document.getElementById('status').innerText="Nagbabayad ng "+name+"...";
 try{
-const authResult = await window.Pi.authenticate(['username','payments'], onIncompletePaymentFound);
-isAuthenticated = true;
-document.getElementById('status').innerText = "Connected as: @" + authResult.user.username;
-return true;
-}catch(err){ document.getElementById('status').innerText = "Please open inside Pi Browser to connect."; return false; }
-}
-async function buy(item, amount){
-if(!hasPi){ showInviteWindow(); return; }
-if(!isAuthenticated){ const ok = await auth(); if(!ok) return; }
-document.getElementById('status').innerText = "Opening payment for " + item + "...";
-window.Pi.createPayment({amount: amount, memo: "Pitso Order: " + item, metadata: {item: item}},{
-onReadyForServerApproval: function(paymentId){
-fetch(BACKEND_URL + "/api/approve",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({paymentId: paymentId})});
-},
-onReadyForServerCompletion: function(paymentId, txid){
-fetch(BACKEND_URL + "/api/complete",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({paymentId: paymentId, txid: txid})}).then(()=>{
-document.getElementById('status').innerText = "Salamat! Bayad na ang " + item + " (" + amount + " Pi).";
-alert("Order Successful! Salamat sa pagbili sa Pitso.");
-});
-},
-onCancel: function(paymentId){ document.getElementById('status').innerText = "Payment cancelled."; },
-onError: function(error){ document.getElementById('status').innerText = "Payment error: " + (error && error.message ? error.message : error); }
-});
+const r1=await fetch(BACKEND+"/createPayment",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({amount:amount,memo:name})});
+const d1=await r1.json();
+if(!d1.paymentId){document.getElementById('status').innerText="Testnet Error: "+(d1.error||"walang paymentId");return;}
+const r2=await fetch(BACKEND+"/completePayment",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({paymentId:d1.paymentId})});
+const d2=await r2.json();
+document.getElementById('status').innerText=d2.success?"✅ Test Bayad Na! "+name:"❌ Hindi natapos";
+}catch(e){document.getElementById('status').innerText="Error: "+e.message;}
 }
 </script>
 </body>
