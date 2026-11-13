@@ -19,6 +19,7 @@ header p{margin:4px 0 0}
 button{background:#ff8a00;color:#fff;border:none;padding:12px 18px;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer;width:100%}
 #status{padding:12px;font-weight:bold;color:#1a7a00}
 footer{padding:16px;color:#888;font-size:13px}
+.social-btn{display:inline-block;margin:5px;padding:10px 14px;border-radius:10px;color:#fff;text-decoration:none;font-weight:bold;font-size:14px}
 </style>
 </head>
 <body>
@@ -37,14 +38,22 @@ footer{padding:16px;color:#888;font-size:13px}
 <div class="card"><h3>Drinks Medium</h3><p>Cold Red Drink with Ice - Medium</p><div class="price">0.50 Pi</div><button onclick="buy('Drinks Medium',0.5)">Buy with Pi - 0.5 Pi</button></div>
 <div class="card"><h3>Drinks Large</h3><p>Cold Red Drink with Ice - Large</p><div class="price">0.75 Pi</div><button onclick="buy('Drinks Large',0.75)">Buy with Pi - 0.75 Pi</button></div>
 </div>
-<footer>Pitso • pitso.pi • Crispy Golden Fresh</footer><!-- INVITE WINDOW -->
+<footer>
+<p>Pitso • pitso.pi • Crispy Golden Fresh</p>
+<a class="social-btn" style="background:#1877F2;" href="https://www.facebook.com/PitsoPH" target="_blank">👍 Follow Pitso sa Facebook</a>
+<a class="social-btn" style="background:#1877F2;" href="https://www.facebook.com/KuyaDannie-LifeStory" target="_blank">👍 Follow Kuya Dannie</a>
+<a class="social-btn" style="background:#FF0000;" href="https://www.youtube.com/@PitsoPH" target="_blank">▶️ Subscribe sa YouTube</a>
+</footer><!-- INVITE WINDOW -->
 <div id="inviteWindow" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.75); z-index:9999; align-items:center; justify-content:center; padding:15px;">
 <div style="background:white; padding:25px; border-radius:16px; max-width:360px; width:100%; text-align:center;">
 <h2 style="color:#d92d20; margin:0;">🍗 Oops! Hindi ka pa Pi User?</h2>
 <p>Para makabili dito sa Pitso, kailangan mo muna ng Pi App. Libre lang!</p>
 <p>Gamitin mo invite code ko:</p>
 <div style="background:#fff3e0; padding:10px; border-radius:10px; font-size:22px; font-weight:bold; color:#e65100;">DannReal1777</div>
-<a href="https://minepi.com/DannReal1777" target="_blank" style="display:block; background:#ff8a00; color:white; padding:13px; border-radius:10px; text-decoration:none; font-weight:bold; margin:15px 0 10px;">Download Pi App Gamit Invite Ko</a>
+<a href="https://minepi.com/DannReal1777" target="_blank" style="display:block; background:#ff8a00; color:white; padding:13px; border-radius:10px; text-decoration:none; font-weight:bold; margin:15px 0 8px;">Download Pi App Gamit Invite Ko</a>
+<a href="https://www.facebook.com/PitsoPH" target="_blank" style="display:block; background:#1877F2; color:white; padding:11px; border-radius:10px; text-decoration:none; font-weight:bold; margin:0 0 8px;">👍 Follow Pitso sa Facebook</a>
+<a href="https://www.facebook.com/KuyaDannie-LifeStory" target="_blank" style="display:block; background:#1877F2; color:white; padding:11px; border-radius:10px; text-decoration:none; font-weight:bold; margin:0 0 8px;">👍 Follow Kuya Dannie</a>
+<a href="https://www.youtube.com/@PitsoPH" target="_blank" style="display:block; background:#FF0000; color:white; padding:11px; border-radius:10px; text-decoration:none; font-weight:bold; margin:0 0 10px;">▶️ Subscribe sa YouTube ni Pitso</a>
 <button onclick="copyInvite()" style="width:100%; background:#fff; border:1px solid #ff8a00; color:#e65100; padding:10px; border-radius:10px; font-weight:bold;">Copy Invite Link</button>
 <br><br>
 <button onclick="closeInviteWindow()" style="background:#eee; color:#333; padding:10px 20px; border:none; border-radius:10px;">Balik sa Tindahan</button>
@@ -55,7 +64,7 @@ footer{padding:16px;color:#888;font-size:13px}
 const BACKEND_URL = "https://pitso-backend.onrender.com";
 const INVITE_LINK = "https://minepi.com/DannReal1777";
 let isAuthenticated = false;
-const hasPi = typeof window.Pi !== 'undefined';
+const hasPi = /PiBrowser/i.test(navigator.userAgent);
 if (hasPi) { window.Pi.init({ version: "2.0", sandbox: true }); }
 function showInviteWindow(){ document.getElementById('inviteWindow').style.display = 'flex'; }
 function closeInviteWindow(){ document.getElementById('inviteWindow').style.display = 'none'; }
